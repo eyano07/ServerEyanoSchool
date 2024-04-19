@@ -1,5 +1,3 @@
-Sure, here's a basic template for a README file for your project. You can modify it according to your project's needs.
-
 ```markdown
 # EyanoSchool-ServerApp
 
