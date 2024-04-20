@@ -46,13 +46,15 @@ public class FeesService implements CrudService<FeesDto, Long> {
         * @throws IdNotFoundException (if the entity Slice and TypeFees is not found)
      */
     @Override
-    public FeesDto save(FeesDto entity) throws IdNotFoundException {
+    public FeesDto save(FeesDto entity) throws IdNotFoundException, IdIsNullException {
         log.info("execution of the method:save(FeesDto entity) : {"+entity+"}");
         Fees fees = mapper.dtoFromEntity(entity);
 
         // star check if the sliceFees and typeFees exist
+        if(entity.getSliceFees().getId() == null) throw new IdIsNullException("The id SliceFees is null");
         sliceFeesRepository.findById(fees.getSliceFees().getId()).orElseThrow(
                 () -> new IdNotFoundException("SliceFees with id " + fees.getSliceFees().getId() + " not found"));
+        if(entity.getTypeFees().getId()==null) throw new IdIsNullException("The id TypeFees is null");
         typeFeesRepository.findById(fees.getTypeFees().getId()).orElseThrow(
                 () -> new IdNotFoundException("TypeFees with id " + fees.getTypeFees().getId() + " not found"));
         // end check if the sliceFees and typeFees exist
@@ -63,10 +65,10 @@ public class FeesService implements CrudService<FeesDto, Long> {
     }
     /**
         * implementation of methode update from CrudService interface for updating FeesDto entity
-        * @param entity : FeesDto
+        * @param entity : the entity to update
+        * @return the entity updated
         * @throws IdNotFoundException (if the entity is not found)
         * @throws IdIsNullException (if the entity id is null)
-        * @return : FeesDto
      */
     @Override
     public FeesDto update(FeesDto entity) throws IdNotFoundException, IdIsNullException {

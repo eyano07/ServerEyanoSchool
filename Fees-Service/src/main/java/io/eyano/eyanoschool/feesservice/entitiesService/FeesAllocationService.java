@@ -36,8 +36,8 @@ public class FeesAllocationService implements CrudService<FeesAllocationDto, Lon
     @Override
     public FeesAllocationDto save(FeesAllocationDto entity){
         log.info("execution of the method:save(FeesAllocationDto entity) : {"+entity+"}") ;
-        FeesAllocation feesAllocation = mapper.dtoFromEntity(entity);
 
+        FeesAllocation feesAllocation = mapper.dtoFromEntity(entity);
         FeesAllocationDto feesAllocationDto = mapper.entityFromDTO(
                 feesAllocationRepository.save(feesAllocation)
         );
@@ -64,7 +64,7 @@ public class FeesAllocationService implements CrudService<FeesAllocationDto, Lon
         //End of the verification of the id ------------------------------------
 
         FeesAllocationDto feesAllocationDto = save(entity);
-        log.info("entity update : {" +feesAllocationDto.toString()+"}");
+        log.info("entity update : {" +feesAllocationDto+"}");
         return feesAllocationDto;
     }
 
@@ -182,7 +182,7 @@ public class FeesAllocationService implements CrudService<FeesAllocationDto, Lon
 
         //Star of the verification of the id ------------------------------------
         if(id==null){
-            throw new IdIsNullException("The id is null");
+            throw new IdIsNullException("The id FeesAllocation is null");
         }
         FeesAllocation feesAllocation = feesAllocationRepository.findById(id).orElseThrow(IdNotFoundException::new);
         //End of the verification of the id ------------------------------------
@@ -223,11 +223,11 @@ public class FeesAllocationService implements CrudService<FeesAllocationDto, Lon
      */
     @Override
     public FeesAllocationDto findRemoveById(Long id) throws IdNotFoundException, IdIsNullException {
-        log.info("execution of the method:findRemoveById(Long id)") ;
+        log.info("execution of the method:findRemoveById(Long id) : {"+id+"}") ;
 
         //Star of the verification of the id ------------------------------------
         if(id==null){
-            throw new IdIsNullException("The id is null");
+            throw new IdIsNullException("The id FeesAllocation is null");
         }
         FeesAllocation feesAllocation = feesAllocationRepository.findByIdAndRemoveIsTrue(id).orElseThrow(IdNotFoundException::new);
         //End of the verification of the id ------------------------------------
@@ -244,6 +244,7 @@ public class FeesAllocationService implements CrudService<FeesAllocationDto, Lon
     @Override
     public List<FeesAllocationDto> findAll() {
         log.info("execution of the method:findAll()") ;
+
         List<FeesAllocationDto> feesAllocationDtoList = mapper.entitiesFromDtos(
                 feesAllocationRepository.findByRemoveIsFalse()
         );
@@ -257,6 +258,7 @@ public class FeesAllocationService implements CrudService<FeesAllocationDto, Lon
     @Override
     public List<FeesAllocationDto> findAllRemove(){
         log.info("execution of the method:findAllRemove()") ;
+
         List<FeesAllocationDto> feesAllocationDtoList = mapper.entitiesFromDtos(
                 feesAllocationRepository.findByRemoveIsTrue()
         );

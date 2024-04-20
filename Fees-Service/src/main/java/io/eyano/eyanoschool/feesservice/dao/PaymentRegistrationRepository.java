@@ -16,25 +16,25 @@ import java.util.Optional;
  */
 public interface PaymentRegistrationRepository extends JpaRepository<PaymentRegistration, Long> {
     /**
-     * This method is used to find PaymentRegistration by id
-     * @return List of PaymentRegistration
-     */
-    public Optional<PaymentRegistration> findByRemoveIsFalseAndId(Long id);
-    /**
      * This method is used to find PaymentRegistration that are removed by id
      * @return Optional of PaymentRegistration
      */
     Optional<PaymentRegistration> findByIdAndRemoveIsTrue(Long id);
     /**
+     * This method is used to find PaymentRegistration by id
+     * @return Optional of PaymentRegistration
+     */
+    Optional<PaymentRegistration> findByIdAndRemoveIsFalse(Long id);
+    /**
      * This method is used to find all PaymentRegistration
      * @return Optional of PaymentRegistration
      */
-    List<PaymentRegistration> findFeesByRemoveIsFalse();
+    List<PaymentRegistration> findByRemoveIsFalse();
     /**
      * This method is used to find all PaymentRegistration that are removed
      * @return List of PaymentRegistration
      */
-    List<PaymentRegistration> findFeesByRemoveIsTrue();
+    List<PaymentRegistration> findByRemoveIsTrue();
     //---------------------------------------------------------------------------------
     /**
      * This method is used to find all PaymentRegistration by id Candidate

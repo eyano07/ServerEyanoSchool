@@ -23,7 +23,7 @@ public interface CrudService<E,ID> {
      * @param entity : Entity to save
      * @return Entity saved
      */
-    E save(E entity) throws IdNotFoundException;
+    E save(E entity) throws IdNotFoundException, IdIsNullException;
     /**
      * Update an entity
      * @param entity : Entity to update
