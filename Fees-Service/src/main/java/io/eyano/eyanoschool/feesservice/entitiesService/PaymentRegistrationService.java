@@ -138,7 +138,7 @@ public class PaymentRegistrationService implements CrudService<PaymentRegistrati
 
         //Star of the verification of the existence of the entity -----------------------------------------
         if(id == null) throw new IdIsNullException("The id paymentRegistration is null");
-        PaymentRegistration paymentRegistration = paymentRegistrationRepository.findByIdAndRemoveIsFalse(
+        PaymentRegistration paymentRegistration = paymentRegistrationRepository.findByIdAndRemoveIsTrue(
                 id).orElseThrow(IdNotFoundException::new);
         //End of the verification of the existence of the entity -----------------------------------------
 

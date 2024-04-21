@@ -177,7 +177,7 @@ public class FeesService implements CrudService<FeesDto, Long> {
         if(id==null){
             throw new IdIsNullException("The id fees is null");
         }
-        Fees fees = feesRepository.findByIdAndRemoveIsFalse(id).orElseThrow(IdNotFoundException::new);
+        Fees fees = feesRepository.findById(id).orElseThrow(IdNotFoundException::new);
         //End of the verification of the id ------------------------------------
 
         FeesDto feesDto = mapper.entityFromDTO(fees);
@@ -220,7 +220,7 @@ public class FeesService implements CrudService<FeesDto, Long> {
         if(id==null){
             throw new IdIsNullException("The id fees is null");
         }
-        Fees fees = feesRepository.findById(id).orElseThrow(IdNotFoundException::new);
+        Fees fees = feesRepository.findByIdAndRemoveIsFalse(id).orElseThrow(IdNotFoundException::new);
         //End of the verification of the id ------------------------------------
 
         FeesDto feesDto = mapper.entityFromDTO(fees);

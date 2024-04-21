@@ -58,7 +58,7 @@ public class SliceFeesService implements CrudService<SliceFeesDto, Long> {
 
         //star of the verification of the entity existence and verification if entity is null ------------------
         if(entity == null){
-            throw new IdNotFoundException("entity is null");
+            throw new IdNotFoundException("entity slice is null");
         }
         sliceFeesRepository.findByIdAndRemoveIsFalse(entity.getId()).orElseThrow(IdNotFoundException::new);
         //end of the verification of the entity existence and verification if entity is null ------------------
@@ -131,7 +131,7 @@ public class SliceFeesService implements CrudService<SliceFeesDto, Long> {
         if(id == null){
             throw new IdNotFoundException("entity is null");
         }
-        SliceFees sliceFees = sliceFeesRepository.findByIdAndRemoveIsFalse(id).orElseThrow(IdNotFoundException::new);
+        SliceFees sliceFees = sliceFeesRepository.findByIdAndRemoveIsTrue(id).orElseThrow(IdNotFoundException::new);
         //end of the verification of the entity existence and verification if entity is null ------------------
 
         SliceFeesDto sliceFeesDto = mapper.entityFromDTO(sliceFees);
@@ -156,7 +156,7 @@ public class SliceFeesService implements CrudService<SliceFeesDto, Long> {
         if(id == null){
             throw new IdNotFoundException("entity is null");
         }
-        SliceFees sliceFees = sliceFeesRepository.findByIdAndRemoveIsFalse(id).orElseThrow(IdNotFoundException::new);
+        SliceFees sliceFees = sliceFeesRepository.findById(id).orElseThrow(IdNotFoundException::new);
         //end of the verification of the entity existence and verification if entity is null ------------------
 
         SliceFeesDto sliceFeesDto = mapper.entityFromDTO(sliceFees);
@@ -179,11 +179,11 @@ public class SliceFeesService implements CrudService<SliceFeesDto, Long> {
         if(id == null){
             throw new IdNotFoundException("entity is null");
         }
-        SliceFees sliceFees = sliceFeesRepository.findByIdAndRemoveIsFalse(id).orElseThrow(IdNotFoundException::new);
+        SliceFees sliceFees = sliceFeesRepository.findById(id).orElseThrow(IdNotFoundException::new);
         //end of the verification of the entity existence and verification if entity is null ------------------
 
         boolean remove = sliceFees.isRemove();
-        log.info("the remove attribute of the entity {"+ sliceFees+"} is : "+sliceFees.isRemove());
+        log.info("the remove attribute of the entity {"+ sliceFees+"} is : "+remove);
         return remove;
     }
 

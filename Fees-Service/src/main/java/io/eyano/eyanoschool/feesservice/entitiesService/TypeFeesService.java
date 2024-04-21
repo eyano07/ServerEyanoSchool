@@ -34,9 +34,12 @@ public class TypeFeesService implements CrudService<TypeFeesDto, Long> {
      */
     @Override
     public TypeFeesDto save(TypeFeesDto entity) {
-        log.info("execution of the method:save(TypeFeesDto entity)");
+        log.info("execution of the method:save(TypeFeesDto entity) : {"+ entity+"}");
         TypeFees typeFees = mapper.dtoFromEntity(entity);
-        TypeFeesDto typeFeesDto = mapper.entityFromDTO(typeFeesRepository.save(typeFees));
+
+        TypeFeesDto typeFeesDto = mapper.entityFromDTO(
+                typeFeesRepository.save(typeFees)
+        );
         log.info("the creation of the entity : {"+ typeFeesDto+"}");
         return typeFeesDto;
     }
@@ -46,14 +49,22 @@ public class TypeFeesService implements CrudService<TypeFeesDto, Long> {
         * @param entity : the entity to update
         * @return the entity updated
         * @throws IdNotFoundException : if the entity is not found
+        * @throws IdNotFoundException : if the entity is not found
      */
     @Override
     public TypeFeesDto update(TypeFeesDto entity) throws IdNotFoundException {
-        log.info("execution of the method:update(TypeFeesDto entity)");
-        typeFeesRepository.findById(entity.getId()).orElseThrow(IdNotFoundException::new);
-        TypeFeesDto typeFeesDtoSave = save(entity);
-        log.info("entity update : {" +typeFeesDtoSave+"}");
-        return typeFeesDtoSave;
+        log.info("execution of the method:update(TypeFeesDto entity) : {"+ entity+"}");
+
+        //star oft the verification of the entity existence and verification of the entity is null -----------------------
+        if(entity == null){
+            throw new IdNotFoundException("the entity type fees is null");
+        }
+        typeFeesRepository.findByIdAndRemoveIsFalse(entity.getId()).orElseThrow(IdNotFoundException::new);
+        //end of the verification of the entity existence and verification of the entity is null -----------------------
+
+        TypeFeesDto typeFeesDto = save(entity);
+        log.info("entity update : {" +typeFeesDto+"}");
+        return typeFeesDto;
     }
 
     /**
@@ -61,14 +72,22 @@ public class TypeFeesService implements CrudService<TypeFeesDto, Long> {
         * @param entity : the entity to delete
         * @return boolean : the entity deleted
         * @throws IdNotFoundException : if the entity is not found
+        * @throws IdNotFoundException : if the entity is not found
      */
     @Override
     public boolean remove(TypeFeesDto entity) throws IdNotFoundException {
-        log.info("execution of the method:remove(TypeFeesDto entity)");
-        TypeFees typeFees = typeFeesRepository.findByIdAndRemoveIsFalse(entity.getId()).orElseThrow(IdNotFoundException::new);
-        TypeFeesDto typeFeesDto = mapper.entityFromDTO(typeFees);
+        log.info("execution of the method:remove(TypeFeesDto entity) : {"+ entity+"}");
 
+        //star oft the verification of the entity existence and verification of the entity is null -----------------------
+        if(entity == null){
+            throw new IdNotFoundException("the entity type fees is null");
+        }
+        TypeFees typeFees = typeFeesRepository.findByIdAndRemoveIsFalse(entity.getId()).orElseThrow(IdNotFoundException::new);
+        //end of the verification of the entity existence and verification of the entity is null -----------------------
+
+        TypeFeesDto typeFeesDto = mapper.entityFromDTO(typeFees);
         typeFeesDto.setRemove(true);
+
         boolean remove = update(typeFeesDto).isRemove();
         log.info("the entity : {"+ typeFeesDto+"} is deleted in the database");
         return remove;
@@ -79,15 +98,95 @@ public class TypeFeesService implements CrudService<TypeFeesDto, Long> {
         * @param id : the entity to delete
         * @return boolean : the entity deleted
         * @throws IdNotFoundException : if the entity is not found
+        * @throws IdNotFoundException : if the entity is not found
      */
     @Override
     public boolean removeById(Long id) throws IdNotFoundException {
-        log.info("execution of the method:removeById(Long id)") ;
+        log.info("execution of the method:remove(Long id) : {"+ id+"}");
+
+        //star oft the verification of the entity existence and verification of the entity is null -----------------------
+        if(id == null){
+            throw new IdNotFoundException("the entity type fees is null");
+        }
         TypeFees typeFees = typeFeesRepository.findByIdAndRemoveIsFalse(id).orElseThrow(IdNotFoundException::new);
+        //end of the verification of the entity existence and verification of the entity is null -----------------------
+
         TypeFeesDto typeFeesDto = mapper.entityFromDTO(typeFees);
         typeFeesDto.setRemove(true);
+
         boolean remove = update(typeFeesDto).isRemove();
-        log.info("the entity : {"+ typeFeesDto+"} is deleted in the database from id");
+        log.info("the entity : {"+ typeFeesDto+"} is deleted in the database");
+        return remove;
+    }
+
+    /**
+     * This method restores an entity in the database
+     * @param id : the entity to restore
+     * @return boolean : the entity restored
+     * @throws IdNotFoundException : if the entity is not found
+     * @throws IdNotFoundException : if the entity is not found
+     */
+    @Override
+    public boolean restore(Long id) throws IdNotFoundException {
+        log.info("execution of the method:restore(Long id) : {"+ id+"}");
+
+        //star oft the verification of the entity existence and verification of the entity is null -----------------------
+        if(id == null){
+            throw new IdNotFoundException("the entity type fees is null");
+        }
+        TypeFees typeFees = typeFeesRepository.findByIdAndRemoveIsTrue(id).orElseThrow(IdNotFoundException::new);
+        //end of the verification of the entity existence and verification of the entity is null -----------------------
+
+        TypeFeesDto typeFeesDto = mapper.entityFromDTO(typeFees);
+        typeFeesDto.setRemove(false);
+
+        update(typeFeesDto);
+        log.info("the entity : {"+ typeFeesDto+"} is restored in the database");
+        return true;
+    }
+
+    /**
+     * This method checks if an entity exists in the database
+     * @param id : the entity to check
+     * @return boolean : true if the entity exists
+     * @throws IdNotFoundException : if the entity is not found
+     */
+    @Override
+    public TypeFeesDto isExist(Long id) throws IdNotFoundException {
+        log.info("execution of the method:isExist(Long id) : {"+ id+"}"); ;
+
+        //star oft the verification of the entity existence and verification of the entity is null -----------------------
+        if(id == null){
+            throw new IdNotFoundException("the entity type fees is null");
+        }
+        TypeFees typeFees = typeFeesRepository.findById(id).orElseThrow(IdNotFoundException::new);
+        //end of the verification of the entity existence and verification of the entity is null -----------------------
+
+        TypeFeesDto typeFeesDto = mapper.entityFromDTO(typeFees);
+
+        log.info("the entity : {"+ typeFeesDto+"} exists in the database");
+        return typeFeesDto;
+    }
+
+    /**
+     * This method checks if an entity is deleted in the database
+     * @param id : the entity to check
+     * @return boolean : true if the entity is deleted
+     * @throws IdNotFoundException : if the entity is not found
+     */
+    @Override
+    public boolean isRemove(Long id) throws IdNotFoundException {
+        log.info("execution of the method:isRemove(Long id) : {"+ id+"}");
+
+        //star oft the verification of the entity existence and verification of the entity is null -----------------------
+        if(id == null){
+            throw new IdNotFoundException("the entity type fees is null");
+        }
+        TypeFees typeFees = typeFeesRepository.findById(id).orElseThrow(IdNotFoundException::new);
+        //end of the verification of the entity existence and verification of the entity is null -----------------------
+
+        boolean remove = typeFees.isRemove();
+        log.info("the remove attribute of the entity {"+ typeFees+"} is : "+remove);
         return remove;
     }
 
@@ -98,114 +197,84 @@ public class TypeFeesService implements CrudService<TypeFeesDto, Long> {
         * @throws IdNotFoundException : if the entity is not found
      */
     public TypeFeesDto findById(Long id)throws IdNotFoundException {
-        log.info("execution of the method:findById(Long)") ;
-        TypeFeesDto typeFeesDto = mapper.entityFromDTO(typeFeesRepository.findByIdAndRemoveIsFalse(id).orElseThrow(IdNotFoundException::new));
-        log.info("end of method execution:findById(Long)") ;
+        log.info("execution of the method:findById(Long) : {"+ id+"}") ;
+
+        //star oft the verification of the entity existence and verification of the entity is null -----------------------
+        if(id == null){
+            throw new IdNotFoundException("the entity type fees is null");
+        }
+        TypeFees typeFees = typeFeesRepository.findByIdAndRemoveIsFalse(id).orElseThrow(IdNotFoundException::new);
+        //end of the verification of the entity existence and verification of the entity is null -----------------------
+
+        TypeFeesDto typeFeesDto = mapper.entityFromDTO(typeFees);
+        log.info("end of method execution:findById(Long) : {"+ typeFeesDto+"}");
         return typeFeesDto;
     }
 
     /**
-        * This method finds an entities deleted in the database
-        * @param id : the entity to find
-        * @return the entities deleted
-        * @throws IdNotFoundException : if the entity is not found
+     * This method finds an entities in the database
+     * @param id : the entity to find
+     * @return the entities
+     * @throws IdNotFoundException : if the entity is not found
+     * @throws IdNotFoundException : if the entity is not found
      */
-    public TypeFeesDto findByIdAndRemoveIsTrue(Long id)throws IdNotFoundException {
-        log.info("execution of the method:findByIdAndRemoveIsTrue(Long)") ;
-        TypeFeesDto typeFeesDto = mapper.entityFromDTO(typeFeesRepository.findByIdAndRemoveIsTrue(id).orElseThrow(IdNotFoundException::new));
-        log.info("end of method execution:findByIdAndRemoveIsTrue(Long)") ;
-        return typeFeesDto;
-    }
+    @Override
+    public TypeFeesDto findRemoveById(Long id)throws IdNotFoundException {
+        log.info("execution of the method:findRemoveById(Long id ) : {"+ id+"}") ;
 
+        //star oft the verification of the entity existence and verification of the entity is null -----------------------
+        if(id == null){
+            throw new IdNotFoundException("the entity type fees is null");
+        }
+        TypeFees typeFees = typeFeesRepository.findByIdAndRemoveIsTrue(id).orElseThrow(IdNotFoundException::new);
+        //end of the verification of the entity existence and verification of the entity is null -----------------------
 
-    /**
-        * This method finds an entities in the database
-        * @param id : the entity to find
-        * @return the entities
-        * @throws IdNotFoundException : if the entity is not found
-     */
-    public TypeFeesDto findByIdAndRemoveIsFalse(Long id)throws IdNotFoundException {
-        log.info("execution of the method:findByIdAndRemoveIsFalse(Long)") ;
-        TypeFeesDto typeFeesDto = mapper.entityFromDTO(typeFeesRepository.findByIdAndRemoveIsFalse(id).orElseThrow(IdNotFoundException::new));
+        TypeFeesDto typeFeesDto = mapper.entityFromDTO(typeFees);
         log.info("end of method execution:findByIdAndRemoveIsFalse(Long)") ;
         return typeFeesDto;
     }
 
     /**
-        * This method restores an entity in the database
-        * @param id : the entity to restore
-        * @return boolean : the entity restored
-        * @throws IdNotFoundException : if the entity is not found
-     */
-    @Override
-    public boolean restore(Long id) throws IdNotFoundException {
-        log.info("execution of the method:restore(Long id)") ;
-        TypeFees typeFees = typeFeesRepository.findById(id).orElseThrow(IdNotFoundException::new);
-        TypeFeesDto typeFeesDto = mapper.entityFromDTO(typeFees);
-        typeFeesDto.setRemove(false);
-        boolean remove = update(typeFeesDto).isRemove();
-        log.info("the entity : {"+ typeFeesDto+"} is restored in the database");
-        return remove;
-    }
-
-    /**
-        * This method checks if an entity exists in the database
-        * @param id : the entity to check
-        * @return boolean : true if the entity exists
-        * @throws IdNotFoundException : if the entity is not found
-     */
-    @Override
-    public boolean isExist(Long id) throws IdNotFoundException {
-        log.info("execution of the method:isExist(Long id)") ;
-        TypeFees typeFees = typeFeesRepository.findById(id).orElseThrow(IdNotFoundException::new);
-        log.info("the entity : {"+ typeFees+"} exists in the database");
-        return true;
-    }
-
-    /**
-        * This method finds all deleted entities in the database
-        * @return deleted entities
-     */
-    public List<TypeFeesDto> findAllDelete() {
-        log.info("execution of the method:findAllDelete") ;
-        List<TypeFeesDto> typeFeesDtoList = mapper.entitiesFromDtos(typeFeesRepository.findTypeFeesByRemoveIsTrue());
-        log.info("end of method execution:findAllDelete") ;
-        return typeFeesDtoList;
-    }
-
-    /**
-        * This method checks if an entity is deleted in the database
-        * @param id : the entity to check
-        * @return boolean : true if the entity is deleted
-        * @throws IdNotFoundException : if the entity is not found
-     */
-    @Override
-    public boolean isRemove(Long id) throws IdNotFoundException {
-        log.info("execution of the method:isRemove(Long id)") ;
-        TypeFees typeFees = typeFeesRepository.findById(id).orElseThrow(IdNotFoundException::new);
-        boolean remove = typeFees.isRemove();
-        log.info("the remove attribute of the entity {"+ typeFees+"} is : "+remove);
-        return remove;
-    }
-
-    /**
-        * This method finds all entities in the database
-        * @return List<TypeFeesDto> : the list of entities
+     * This method finds all entities in the database
+     * @return List<TypeFeesDto> : the list of entities
      */
     @Override
     public List<TypeFeesDto> findAll() {
         log.info("execution of the method:findAll()") ;
-        List<TypeFeesDto> feesDtoList = mapper.entitiesFromDtos(typeFeesRepository.findTypeFeesByRemoveIsFalse());
+
+        List<TypeFeesDto> feesDtoList = mapper.entitiesFromDtos(
+                typeFeesRepository.findTypeFeesByRemoveIsFalse()
+        );
         log.info("end of method execution:findAll()") ;
         return feesDtoList;
     }
+    /**
+        * This method finds all deleted entities in the database
+        * @return deleted entities
+     */
+    @Override
+    public List<TypeFeesDto> findAllRemove() {
+        log.info("execution of the method:findAllDelete") ;
+        List<TypeFeesDto> typeFeesDtoList = mapper.entitiesFromDtos(
+                typeFeesRepository.findTypeFeesByRemoveIsTrue());
+        log.info("end of method execution:findAllDelete") ;
+        return typeFeesDtoList;
+    }
+
+    //##############################################################
+    //###                                                        ###
+    //###    The following methods are specific to the entity    ###
+    //###                                                        ###
+    //##############################################################
+
     /**
         * This method finds all entities deleted in the database
         * @param tag : designation of the entity
         * @return List<TypeFeesDto> : the list of entities
      */
     public List<TypeFeesDto> findTypeFeesByDesignationContainsAndRemoveIsTrue(String tag){
-        log.info("execution of the method:findTypeFeesByDesignationContainsAndRemoveIsTrue(String)") ;
+        log.info("execution of the method:findTypeFeesByDesignationContainsAndRemoveIsTrue(String) : {"+ tag+"}") ;
+
         List<TypeFeesDto> typeFeesDtoList = mapper.entitiesFromDtos(
                 typeFeesRepository.findTypeFeesByDesignationIgnoreCaseContainsAndRemoveIsTrue(tag)
         );
@@ -219,7 +288,8 @@ public class TypeFeesService implements CrudService<TypeFeesDto, Long> {
      * @return List<TypeFeesDto> : the list of entities
      */
     public List<TypeFeesDto> findTypeFeesByDesignationContainsAndRemoveIsFalse(String tag){
-        log.info("execution of the method:findTypeFeesByDesignationContainsAndRemoveIsFalse(String)") ;
+        log.info("execution of the method:findTypeFeesByDesignationContainsAndRemoveIsFalse(String) : {"+ tag+"}") ;
+
         List<TypeFeesDto> typeFeesDtoList = mapper.entitiesFromDtos(
                 typeFeesRepository.findTypeFeesByDesignationIgnoreCaseContainsAndRemoveIsFalse(tag)
         );
@@ -235,7 +305,8 @@ public class TypeFeesService implements CrudService<TypeFeesDto, Long> {
         * @return Map<String,Object> : the list of entities
      */
     public Map<String,Object> findTypeFeesByDesignationContainsAndRemoveIsFalsePage(String tag, int page, int size ){
-        log.info("execution of the method:findTypeFeesByDesignationContainsAndRemoveIsFalsePage(String,int,int)") ;
+        log.info("execution of the method:findTypeFeesByDesignationContainsAndRemoveIsFalsePage(String,int,int) : {"+ tag+","+page+","+size+"}") ;
+
         Map<String,Object> typeFeesDtoPage = mapper.entitiesFromDtosPage(
                 typeFeesRepository.findTypeFeesByDesignationIgnoreCaseContainsAndRemoveIsFalse(tag, PageRequest.of(page,size))
         );
@@ -251,7 +322,7 @@ public class TypeFeesService implements CrudService<TypeFeesDto, Long> {
         * @return Map<String,Object> : the list of entities
      */
     public Map<String,Object> findTypeFeesByDesignationContainsAndRemoveIsTruePage(String tag, int page, int size ){
-        log.info("execution of the method:findTypeFeesByDesignationContainsAndRemoveIsTruePage(String,int,int)") ;
+        log.info("execution of the method:findTypeFeesByDesignationContainsAndRemoveIsTruePage(String,int,int) : {"+ tag+","+page+","+size+"}") ;
         Map<String,Object> typeFeesDtoPage = mapper.entitiesFromDtosPage(
                 typeFeesRepository.findTypeFeesByDesignationIgnoreCaseContainsAndRemoveIsTrue(tag, PageRequest.of(page,size))
         );
