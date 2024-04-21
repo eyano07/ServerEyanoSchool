@@ -19,6 +19,6 @@ public interface CurrencyRestClient {
      * @param id : Long
      * @return Currency
      */
-    @GetMapping("/api/currency/{id}")
+    @GetMapping("/api/currencies/{id}")
     public Currency getById(@PathVariable("id") Long id);
 }
