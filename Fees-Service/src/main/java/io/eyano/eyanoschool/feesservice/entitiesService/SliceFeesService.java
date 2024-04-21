@@ -1,8 +1,10 @@
 package io.eyano.eyanoschool.feesservice.entitiesService;
 
 import io.eyano.eyanoschool.feesservice.dao.SliceFeesRepository;
+import io.eyano.eyanoschool.feesservice.dtos.PaymentDto;
 import io.eyano.eyanoschool.feesservice.dtos.SliceFeesDto;
 import io.eyano.eyanoschool.feesservice.entities.SliceFees;
+import io.eyano.eyanoschool.feesservice.exceptions.IdIsNullException;
 import io.eyano.eyanoschool.feesservice.exceptions.IdNotFoundException;
 import io.eyano.eyanoschool.feesservice.mappers.SliceFeesMapper;
 import lombok.AllArgsConstructor;
@@ -33,9 +35,12 @@ public class SliceFeesService implements CrudService<SliceFeesDto, Long> {
      */
     @Override
     public SliceFeesDto save(SliceFeesDto entity) {
-        log.info("execution of the method:save(SliceFeesDto entity)");
+        log.info("execution of the method:save(SliceFeesDto entity) : {"+ entity+"}");
         SliceFees sliceFees = mapper.dtoFromEntity(entity);
-        SliceFeesDto sliceFeesDto = mapper.entityFromDTO(sliceFeesRepository.save(sliceFees));
+
+        SliceFeesDto sliceFeesDto = mapper.entityFromDTO(
+                sliceFeesRepository.save(sliceFees)
+        );
         log.info("the creation of the entity : {"+ sliceFeesDto+"}");
         return sliceFeesDto;
     }
@@ -45,11 +50,19 @@ public class SliceFeesService implements CrudService<SliceFeesDto, Long> {
      * @param entity : the entity to update
      * @return the entity updated
      * @throws IdNotFoundException : if the entity is not found
+     * @throws IdNotFoundException : if the entity is null
      */
     @Override
     public SliceFeesDto update(SliceFeesDto entity) throws IdNotFoundException {
-        log.info("execution of the method:update(SliceFeesDto entity)");
-        sliceFeesRepository.findById(entity.getId()).orElseThrow(IdNotFoundException::new);
+        log.info("execution of the method:update(SliceFeesDto entity) : {"+ entity+"}");
+
+        //star of the verification of the entity existence and verification if entity is null ------------------
+        if(entity == null){
+            throw new IdNotFoundException("entity is null");
+        }
+        sliceFeesRepository.findByIdAndRemoveIsFalse(entity.getId()).orElseThrow(IdNotFoundException::new);
+        //end of the verification of the entity existence and verification if entity is null ------------------
+
         SliceFeesDto sliceFeesDto = save(entity);
         log.info("entity update : {" +sliceFeesDto+"}");
         return sliceFeesDto;
@@ -59,28 +72,44 @@ public class SliceFeesService implements CrudService<SliceFeesDto, Long> {
      * @param entity : the entity to delete
      * @return the entity deleted
      * @throws IdNotFoundException : if the entity is not found
+     * @throws IdNotFoundException : if the entity is null
      */
     @Override
     public boolean remove(SliceFeesDto entity) throws IdNotFoundException {
-        log.info("execution of the method:remove(SliceFeesDto entity)");
+        log.info("execution of the method:remove(SliceFeesDto entity) : {"+ entity+"}");
+
+        //star of the verification of the entity existence and verification if entity is null ------------------
+        if(entity == null){
+            throw new IdNotFoundException("entity is null");
+        }
         SliceFees sliceFees = sliceFeesRepository.findByIdAndRemoveIsFalse(entity.getId()).orElseThrow(IdNotFoundException::new);
+        //end of the verification of the entity existence and verification if entity is null ------------------
+
         SliceFeesDto sliceFeesDto = mapper.entityFromDTO(sliceFees);
         sliceFeesDto.setRemove(true);
 
-        SliceFeesDto result = update(sliceFeesDto);
-        log.info("the entity : {"+ result+"} is deleted in the database");
-        return result.isRemove();
+        boolean remove = update(sliceFeesDto).isRemove();
+        log.info("the entity : {"+ sliceFeesDto+"} is deleted in the database");
+        return remove;
     }
     /**
      * This method deletes an entity in the database
      * @param id : the entity to delete
      * @return the entity deleted
      * @throws IdNotFoundException : if the entity is not found
+     * @throws IdNotFoundException : if the entity is null
      */
     @Override
     public boolean removeById(Long id) throws IdNotFoundException {
-        log.info("execution of the method:removeById(Long id)") ;
+        log.info("execution of the method:removeById(Long id) : {"+ id+"}") ;
+
+        //star of the verification of the entity existence and verification if entity is null ------------------
+        if(id == null){
+            throw new IdNotFoundException("entity is null");
+        }
         SliceFees sliceFees = sliceFeesRepository.findByIdAndRemoveIsFalse(id).orElseThrow(IdNotFoundException::new);
+        //end of the verification of the entity existence and verification if entity is null ------------------
+
         SliceFeesDto sliceFeesDto = mapper.entityFromDTO(sliceFees);
         sliceFeesDto.setRemove(true);
         boolean remove = update(sliceFeesDto).isRemove();
@@ -92,44 +121,114 @@ public class SliceFeesService implements CrudService<SliceFeesDto, Long> {
      * @param id : the entity to restore
      * @return the entity restored
      * @throws IdNotFoundException : if the entity is not found
+     * @throws IdNotFoundException : if the entity is null
      */
     @Override
     public boolean restore(Long id) throws IdNotFoundException {
-        log.info("execution of the method:restore(Long id)") ;
-        SliceFees sliceFees = sliceFeesRepository.findById(id).orElseThrow(IdNotFoundException::new);
+        log.info("execution of the method:restore(Long id) : {"+ id+"}") ;
+
+        //star of the verification of the entity existence and verification if entity is null ------------------
+        if(id == null){
+            throw new IdNotFoundException("entity is null");
+        }
+        SliceFees sliceFees = sliceFeesRepository.findByIdAndRemoveIsFalse(id).orElseThrow(IdNotFoundException::new);
+        //end of the verification of the entity existence and verification if entity is null ------------------
+
         SliceFeesDto sliceFeesDto = mapper.entityFromDTO(sliceFees);
         sliceFeesDto.setRemove(false);
 
-        boolean remove = update(sliceFeesDto).isRemove();
+        update(sliceFeesDto);
         log.info("the entity : {"+ sliceFeesDto+"} is restored in the database");
-        return remove;
+        return true;
     }
     /**
      * This method checks if an entity exists in the database
      * @param id : the entity to check
      * @return boolean : true if the entity exists
      * @throws IdNotFoundException : if the entity is not found
+     * @throws IdNotFoundException : if the entity is null
      */
     @Override
-    public boolean isExist(Long id) throws IdNotFoundException {
-        log.info("execution of the method:isExist(Long id)") ;
-        SliceFees sliceFees = sliceFeesRepository.findById(id).orElseThrow(IdNotFoundException::new);
+    public SliceFeesDto isExist(Long id) throws IdNotFoundException {
+        log.info("execution of the method:isExist(Long id) : {"+ id+"}") ;
+
+        //star of the verification of the entity existence and verification if entity is null ------------------
+        if(id == null){
+            throw new IdNotFoundException("entity is null");
+        }
+        SliceFees sliceFees = sliceFeesRepository.findByIdAndRemoveIsFalse(id).orElseThrow(IdNotFoundException::new);
+        //end of the verification of the entity existence and verification if entity is null ------------------
+
+        SliceFeesDto sliceFeesDto = mapper.entityFromDTO(sliceFees);
+
         log.info("the entity : {"+ sliceFees+"} exists in the database");
-        return true;
+        return sliceFeesDto;
     }
     /**
      * This method checks if an entity is deleted in the database
      * @param id : the entity to check
      * @return boolean : true if the entity is deleted
      * @throws IdNotFoundException : if the entity is not found
+     * @throws IdNotFoundException : if the entity is null
      */
     @Override
     public boolean isRemove(Long id) throws IdNotFoundException {
-        log.info("execution of the method:isRemove(Long id)") ;
-        SliceFees sliceFees = sliceFeesRepository.findById(id).orElseThrow(IdNotFoundException::new);
+        log.info("execution of the method:isRemove(Long id) : {"+ id+"}") ;
+
+        //star of the verification of the entity existence and verification if entity is null ------------------
+        if(id == null){
+            throw new IdNotFoundException("entity is null");
+        }
+        SliceFees sliceFees = sliceFeesRepository.findByIdAndRemoveIsFalse(id).orElseThrow(IdNotFoundException::new);
+        //end of the verification of the entity existence and verification if entity is null ------------------
+
         boolean remove = sliceFees.isRemove();
         log.info("the remove attribute of the entity {"+ sliceFees+"} is : "+sliceFees.isRemove());
         return remove;
+    }
+
+    /**
+     * This method finds an entity in the database
+     * @param id : the id of the entity to find
+     * @return SliceFeesDto : the entity found
+     * @throws IdNotFoundException : if the entity is not found
+     * @throws IdNotFoundException : if the entity is null
+     */
+    public SliceFeesDto findById(Long id)throws IdNotFoundException {
+        log.info("execution of the method:findById(Long) : {"+ id+"}") ;
+
+        //star of the verification of the entity existence and verification if entity is null ------------------
+        if(id == null){
+            throw new IdNotFoundException("entity is null");
+        }
+        SliceFees sliceFees = sliceFeesRepository.findByIdAndRemoveIsFalse(id).orElseThrow(IdNotFoundException::new);
+        //end of the verification of the entity existence and verification if entity is null ------------------
+
+        SliceFeesDto sliceFeesDto = mapper.entityFromDTO(sliceFees);
+        log.info("the entity : {" + sliceFeesDto + "} is found in the database") ;
+        return sliceFeesDto;
+    }
+    /**
+     * This method finds an entity deleted in the database
+     * @param id : the id of the entity to find
+     * @return SliceFeesDto : the entity found
+     * @throws IdNotFoundException : if the entity is not found
+     * @throws IdNotFoundException : if the entity is null
+     */
+    @Override
+    public SliceFeesDto findRemoveById(Long id) throws IdNotFoundException, IdIsNullException {
+        log.info("execution of the method:findById(Long) : {"+ id+"}") ;
+
+        //star of the verification of the entity existence and verification if entity is null ------------------
+        if(id == null){
+            throw new IdNotFoundException("entity is null");
+        }
+        SliceFees sliceFees = sliceFeesRepository.findByIdAndRemoveIsTrue(id).orElseThrow(IdNotFoundException::new);
+        //end of the verification of the entity existence and verification if entity is null ------------------
+
+        SliceFeesDto sliceFeesDto = mapper.entityFromDTO(sliceFees);
+        log.info("the entity : {" + sliceFeesDto + "} is found in the database") ;
+        return sliceFeesDto;
     }
     /**
      * This method finds all entities in the database
@@ -138,7 +237,10 @@ public class SliceFeesService implements CrudService<SliceFeesDto, Long> {
     @Override
     public List<SliceFeesDto> findAll() {
         log.info("execution of the method:findAll()") ;
-        List<SliceFeesDto> sliceFeesDtoList = mapper.entitiesFromDtos(sliceFeesRepository.findSliceFeesByRemoveIsFalse());
+
+        List<SliceFeesDto> sliceFeesDtoList = mapper.entitiesFromDtos(
+                sliceFeesRepository.findSliceFeesByRemoveIsFalse()
+        );
         log.info("end of method execution:findAll()") ;
         return sliceFeesDtoList;
     }
@@ -146,58 +248,36 @@ public class SliceFeesService implements CrudService<SliceFeesDto, Long> {
      * This method finds all deleted entities in the database
      * @return List<SliceFeesDto> : the list of deleted entities
      */
-    public List<SliceFeesDto> findAllDelete() {
+    @Override
+    public List<SliceFeesDto> findAllRemove() {
         log.info("execution of the method:findAllDelete") ;
-        List<SliceFeesDto> sliceFeesDtoList = mapper.entitiesFromDtos(sliceFeesRepository.findSliceFeesByRemoveIsTrue());
+
+        List<SliceFeesDto> sliceFeesDtoList = mapper.entitiesFromDtos(
+                sliceFeesRepository.findSliceFeesByRemoveIsTrue()
+        );
         log.info("end of method execution:findAllDelete") ;
         return sliceFeesDtoList;
     }
-    /**
-     * This method finds an entity in the database
-     * @param id : the id of the entity to find
-     * @return SliceFeesDto : the entity found
-     * @throws IdNotFoundException : if the entity is not found
-     */
-    public SliceFeesDto findById(Long id)throws IdNotFoundException {
-        log.info("execution of the method:findById(Long)") ;
-        SliceFeesDto sliceFeesDto = mapper.entityFromDTO(sliceFeesRepository.findByIdAndRemoveIsFalse(id).orElseThrow(IdNotFoundException::new));
-        log.info("end of method execution:findById(Long)") ;
-        return sliceFeesDto;
-    }
-    /**
-     * This method finds an entity deleted in the database
-     * @param id : the id of the entity to find
-     * @return SliceFeesDto : the entity found
-     * @throws IdNotFoundException : if the entity is not found
-     */
-    public SliceFeesDto findByIdAndRemoveIsTrue(Long id)throws IdNotFoundException {
-        log.info("execution of the method:findByIdAndRemoveIsTrue(Long)") ;
-        SliceFeesDto sliceFeesDto = mapper.entityFromDTO(sliceFeesRepository.findByIdAndRemoveIsTrue(id).orElseThrow(IdNotFoundException::new));
-        log.info("end of method execution:findByIdAndRemoveIsTrue(Long)") ;
-        return sliceFeesDto;
-    }
-    /**
-     * This method finds an entity in the database
-     * @param id : the id of the entity to find
-     * @return SliceFeesDto : the entity found
-     * @throws IdNotFoundException : if the entity is not found
-     */
-    public SliceFeesDto findByIdAndRemoveIsFalse(Long id)throws IdNotFoundException {
-        log.info("execution of the method:findByIdAndRemoveIsFalse(Long)") ;
-        SliceFeesDto sliceFeesDto = mapper.entityFromDTO(sliceFeesRepository.findByIdAndRemoveIsFalse(id).orElseThrow(IdNotFoundException::new));
-        log.info("end of method execution:findByIdAndRemoveIsFalse)") ;
-        return sliceFeesDto;
-    }
+
+    //##############################################################
+    //###                                                        ###
+    //###    The following methods are specific to the entity    ###
+    //###                                                        ###
+    //##############################################################
+
+
     /**
      * This method finds an entity deleted in the database
      * @param tag : the designation of the entity to find
      * @return List<SliceFeesDto> : the list of entities found
      */
     public List<SliceFeesDto> findSliceFeesByDesignationContainsAndRemoveIsTrue(String tag){
-        log.info("execution of the method:findSliceFeesByDesignationContainsAndRemoveIsTrue(String)") ;
+        log.info("execution of the method:findSliceFeesByDesignationContainsAndRemoveIsTrue(String) : {"+ tag+"}") ;
+
         List<SliceFeesDto> sliceFeesDtoList = mapper.entitiesFromDtos(
                 sliceFeesRepository.findSliceFeesByDesignationIgnoreCaseContainsAndRemoveIsTrue(tag)
         );
+
         log.info("end of method execution:findSliceFeesByDesignationContainsAndRemoveIsTrue(String)") ;
         return sliceFeesDtoList;
     }
@@ -207,10 +287,12 @@ public class SliceFeesService implements CrudService<SliceFeesDto, Long> {
      * @return List<SliceFeesDto> : the list of entities found
      */
     public List<SliceFeesDto> findSliceFeesByDesignationContainsAndRemoveIsFalse(String tag){
-        log.info("execution of the method:findSliceFeesByDesignationContainsAndRemoveIsFalse(String)") ;
+        log.info("execution of the method:findSliceFeesByDesignationContainsAndRemoveIsFalse(String) : {"+ tag+"}") ;
+
         List<SliceFeesDto> sliceFeesDtoList = mapper.entitiesFromDtos(
                 sliceFeesRepository.findSliceFeesByDesignationIgnoreCaseContainsAndRemoveIsFalse(tag)
         );
+
         log.info("end of method execution:findSliceFeesByDesignationContainsAndRemoveIsFalse(String)") ;
         return sliceFeesDtoList;
 
@@ -223,9 +305,11 @@ public class SliceFeesService implements CrudService<SliceFeesDto, Long> {
      * @return Map<String,Object> : the list of entities found
      */
     public Map<String,Object> findSliceFeesByDesignationContainsAndRemoveIsFalsePage(String tag,int page, int size ){
-        log.info("execution of the method:findSliceFeesByDesignationContainsAndRemoveIsFalsePage(String,int,int)") ;
+        log.info("execution of the method:findSliceFeesByDesignationContainsAndRemoveIsFalsePage(String,int,int) : {"+ tag+","+page+","+size+"}") ;
+
         Map<String,Object> sliceFeesDtoPage = mapper.entitiesFromDtosPage(
-                sliceFeesRepository.findSliceFeesByDesignationIgnoreCaseContainsAndRemoveIsFalse(tag, PageRequest.of(page,size))
+                sliceFeesRepository.findSliceFeesByDesignationIgnoreCaseContainsAndRemoveIsFalse(tag, PageRequest.of(page,size)
+                )
         );
         log.info("end of method execution:findSliceFeesByDesignationContainsAndRemoveIsFalsePage(String,int,int)") ;
         return sliceFeesDtoPage;
@@ -238,9 +322,10 @@ public class SliceFeesService implements CrudService<SliceFeesDto, Long> {
      * @return Map<String,Object> : the list of entities found
      */
     public Map<String,Object> findSliceFeesByDesignationContainsAndRemoveIsTruePage(String tag,int page, int size){
-        log.info("execution of the method:findSliceFeesByDesignationContainsAndRemoveIsTruePage(String,int,int)") ;
+        log.info("execution of the method:findSliceFeesByDesignationContainsAndRemoveIsTruePage(String,int,int) : {"+ tag+","+page+","+size+"}") ;
         Map<String,Object> sliceFeesDtoPage = mapper.entitiesFromDtosPage(
-                sliceFeesRepository.findSliceFeesByDesignationIgnoreCaseContainsAndRemoveIsTrue(tag, PageRequest.of(page,size))
+                sliceFeesRepository.findSliceFeesByDesignationIgnoreCaseContainsAndRemoveIsTrue(tag, PageRequest.of(page,size)
+                )
         );
         log.info("end of method execution:findSliceFeesByDesignationContainsAndRemoveIsTruePage(String,int,int)") ;
         return sliceFeesDtoPage;
