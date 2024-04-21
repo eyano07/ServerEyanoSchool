@@ -24,9 +24,10 @@ import java.util.Map;
 @Service @Transactional
 @AllArgsConstructor
 public class FeesMapper implements Mapper<FeesDto, Fees> {
+    ModelMapper modelMapper = new ModelMapper();
     TypeFeesRepository typeFeesRepository;
     TypeFeesMapper typeFeesMapper;
-    ModelMapper modelMapper;
+
 
     /**
      * Convert a Fees entity to a FeesDto
@@ -72,7 +73,7 @@ public class FeesMapper implements Mapper<FeesDto, Fees> {
      * @param feesPage : Page of Fees entities
      * @return Page of FeesDto
      */
-    public Map<String,Object> entitiesFromDtosPage(Page<Fees> feesPage) {
+    public Map<String,Object> entitiesFromDtoPage(Page<Fees> feesPage) {
         Map<String,Object> entitiesDtoPage = new HashMap<>();
         List<FeesDto> contents = entitiesFromDtos(feesPage.getContent());
 

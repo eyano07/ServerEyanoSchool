@@ -29,9 +29,9 @@ import java.util.Map;
 @Service @Transactional
 @AllArgsConstructor
 public class PaymentMapper implements Mapper<PaymentDto, Payment> {
-    PaymentSystemRestClient paymentSystemRestClient;
-    CurrencyRestClient currencyRestClient;
-    ModelMapper modelMapper;
+    //PaymentSystemRestClient paymentSystemRestClient;
+    //CurrencyRestClient currencyRestClient;
+    ModelMapper modelMapper = new ModelMapper();
     SliceFeesRepository sliceFeesRepository;
     FeesRepository feesRepository;
     FeesMapper feesMapper;
@@ -46,10 +46,10 @@ public class PaymentMapper implements Mapper<PaymentDto, Payment> {
     public PaymentDto entityFromDTO(Payment payment) {
         PaymentDto paymentDto = modelMapper.map(payment, PaymentDto.class);
 
-        PaymentSystem paymentSystem = paymentSystemRestClient.getById(paymentDto.getIdPaymentSystem());
-        paymentDto.setPaymentSystem(paymentSystem);
-        Currency currency = currencyRestClient.getById(paymentDto.getIdCurrency());
-        paymentDto.setCurrency(currency);
+//        PaymentSystem paymentSystem = paymentSystemRestClient.getById(paymentDto.getIdPaymentSystem());
+//        paymentDto.setPaymentSystem(paymentSystem);
+//        Currency currency = currencyRestClient.getById(paymentDto.getIdCurrency());
+//        paymentDto.setCurrency(currency);
         // TODO: 04/02/2024 implement data recovery in the external modules
         //  Pupil, User to complete the method.
 

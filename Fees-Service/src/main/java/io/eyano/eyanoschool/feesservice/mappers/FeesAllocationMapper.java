@@ -23,7 +23,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FeesAllocationMapper implements Mapper<FeesAllocationDto, FeesAllocation> {
-    ModelMapper modelMapper;
+    ModelMapper modelMapper = new ModelMapper();
     TypeFeesMapper typeFeesMapper;
 
     /**
@@ -57,12 +57,12 @@ public class FeesAllocationMapper implements Mapper<FeesAllocationDto, FeesAlloc
      */
     @Override
     public List<FeesAllocationDto> entitiesFromDtos(List<FeesAllocation> feesAllocations) {
-        List<FeesAllocationDto> feesAllocationDtos = new ArrayList<>();
+        List<FeesAllocationDto> feesAllocationDtoList = new ArrayList<>();
         for (FeesAllocation feesAllocation : feesAllocations) {
             FeesAllocationDto feesAllocationDto = entityFromDTO(feesAllocation);
-            feesAllocationDtos.add(feesAllocationDto);
+            feesAllocationDtoList.add(feesAllocationDto);
         }
 
-        return feesAllocationDtos;
+        return feesAllocationDtoList;
     }
 }

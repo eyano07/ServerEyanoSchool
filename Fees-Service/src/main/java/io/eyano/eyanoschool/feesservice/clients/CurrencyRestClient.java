@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @since : 2021-04-18, Sun
  * @see Currency
  */
-@FeignClient(name = "FINANCIAL-SERVICE")
+//@FeignClient(name = "FINANCIAL-SERVICE")
 public interface CurrencyRestClient {
     /**
      * Get the currency by its identifier
      * @param id : Long
      * @return Currency
      */
-    @GetMapping("/api/currencies/{id}")
+    //@GetMapping("/api/currencies/{id}")
     public Currency getById(@PathVariable("id") Long id);
 }

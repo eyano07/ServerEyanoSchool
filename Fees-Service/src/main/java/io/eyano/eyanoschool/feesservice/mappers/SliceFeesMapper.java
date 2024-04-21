@@ -24,7 +24,7 @@ import java.util.Map;
 @Service @Transactional
 @AllArgsConstructor
 public class SliceFeesMapper implements Mapper<SliceFeesDto, SliceFees> {
-    ModelMapper modelMapper;
+    ModelMapper modelMapper = new ModelMapper();
     /**
      * Convert a SliceFees entity to a SliceFeesDto
      * @param sliceFees : SliceFees entity

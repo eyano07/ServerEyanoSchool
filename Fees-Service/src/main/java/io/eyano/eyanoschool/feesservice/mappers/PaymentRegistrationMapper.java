@@ -21,10 +21,10 @@ import java.util.List;
 @Service @Transactional
 @AllArgsConstructor
 public class PaymentRegistrationMapper implements Mapper<PaymentRegistrationDto, PaymentRegistration> {
-    CurrencyRestClient currencyRestClient;
+    //CurrencyRestClient currencyRestClient;
 
     FeesMapper feesMapper;
-    ModelMapper modelMapper;
+    ModelMapper modelMapper = new ModelMapper();
 
     /**
      * Convert a PaymentRegistration entity to a PaymentRegistrationDto

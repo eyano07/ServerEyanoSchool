@@ -14,14 +14,14 @@ import java.util.List;
  * @since : 2021-04-18, Sun
  * @see PaymentSystem
  */
-@FeignClient(name = "FINANCIAL-SERVICE")
+//@FeignClient(name = "FINANCIAL-SERVICE")
 public interface PaymentSystemRestClient {
     /**
      * Get the payment system by its identifier
      * @param id : Long
      * @return PaymentSystem
      */
-    @GetMapping("/api/paymentSystems/{id}")
+    //@GetMapping("/api/paymentSystems/{id}")
     public PaymentSystem getById(@PathVariable("id") Long id);
 
 }

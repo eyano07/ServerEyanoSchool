@@ -348,7 +348,7 @@ public class FeesService implements CrudService<FeesDto, Long> {
      */
     public Map<String,Object> findFeesByRemoveIsFalseAndDesignationContains(String tag, int page, int size){
         log.info("execution of the method:findFeesByRemoveIsFalseAndDesignationContains(int, int)") ;
-        Map<String,Object> feesPage = mapper.entitiesFromDtosPage(feesRepository.findFeesByRemoveIsFalseAndDesignationIgnoreCaseContains(tag,PageRequest.of(page, size)));
+        Map<String,Object> feesPage = mapper.entitiesFromDtoPage(feesRepository.findFeesByRemoveIsFalseAndDesignationIgnoreCaseContains(tag,PageRequest.of(page, size)));
         log.info("end of method execution:findFeesByRemoveIsFalseAndDesignationContains() : "+feesPage) ;
         return feesPage;
     }
@@ -361,7 +361,7 @@ public class FeesService implements CrudService<FeesDto, Long> {
      */
     public Map<String,Object> findFeesByRemoveIsTrueAndDesignationContains(String tag, int page, int size){
         log.info("execution of the method:findFeesByRemoveIsTrueAndDesignationContains(String,int, int)") ;
-        Map<String,Object> feesPage = mapper.entitiesFromDtosPage(feesRepository.findFeesByRemoveIsTrueAndDesignationIgnoreCaseContains(tag,PageRequest.of(page, size)));
+        Map<String,Object> feesPage = mapper.entitiesFromDtoPage(feesRepository.findFeesByRemoveIsTrueAndDesignationIgnoreCaseContains(tag,PageRequest.of(page, size)));
         log.info("end of method execution:findFeesByRemoveIsTrueAndDesignationContains() : "+feesPage) ;
         return feesPage;
     }
@@ -407,7 +407,7 @@ public class FeesService implements CrudService<FeesDto, Long> {
         //todo: add test for school year id is exist
         //End of the verification of the id school year------------------------------------
 
-        Map<String,Object> feesPage = mapper.entitiesFromDtosPage(
+        Map<String,Object> feesPage = mapper.entitiesFromDtoPage(
                 feesRepository.findByIdSchoolYearAndRemoveIsFalseAndDesignationIgnoreCaseContains(idSchoolYear, designation, PageRequest.of(page, size))
         );
         log.info("end of method execution:findByIdSchoolYearAndRemoveIsFalseAndDesignationContains() : "+feesPage) ;

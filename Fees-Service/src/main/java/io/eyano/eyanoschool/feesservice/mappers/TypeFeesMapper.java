@@ -23,7 +23,7 @@ import java.util.Map;
 @Service @Transactional
 @AllArgsConstructor
 public class TypeFeesMapper implements Mapper<TypeFeesDto, TypeFees> {
-    ModelMapper modelMapper;
+    ModelMapper modelMapper = new ModelMapper();
     /**
      * Convert a TypeFees entity to a TypeFeesDto
      * @param typeFees : TypeFees entity
