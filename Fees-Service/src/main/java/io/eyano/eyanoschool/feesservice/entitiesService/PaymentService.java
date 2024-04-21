@@ -440,5 +440,21 @@ public class PaymentService implements CrudService<PaymentDto,Long> {
         log.info("end of method execution:findByIdPaymentSystemAndFeesIdSchoolYear(Long idPaymentSystem, Long idSchoolYear, Pageable pageable)");
         return map;
     }
+    /**
+     * implementation of the methode findByFeesIdAndIdPupilAndSliceFeesId for getting all paymentDtos by idFees, idPupil and sliceId
+     * @param idFees : the id of the fees
+     * @param idPupil : the id of the pupil
+     * @param sliceId : the id of the slice
+     * @return List<PaymentDto> : the list of all paymentDtos by idFees, idPupil and sliceId
+     */
+    public List<PaymentDto> findByFeesIdAndIdPupilAndSliceFeesId(Long idFees, Long idPupil, Long sliceId) {
+        log.info("execution of the method:findByFeesIdAndIdPupilAndSliceFeesId(Long idFees, Long idPupil, Long sliceId) : {" + idFees + ", " + idPupil + ", " + sliceId + "}");
+
+        List<PaymentDto> paymentDtoList = mapper.entitiesFromDtos(
+                paymentRepository.findByFeesIdAndIdPupilAndSliceFeesId(idFees, idPupil, sliceId)
+        );
+        log.info("end of method execution:findByFeesIdAndIdPupilAndSliceFeesId(Long idFees, Long idPupil, Long sliceId)");
+        return paymentDtoList;
+    }
 
 }

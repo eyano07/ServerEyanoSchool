@@ -80,9 +80,6 @@ public interface FeesRepository extends JpaRepository<Fees, Long> {
      * @return List of fees
      */
     Page<Fees> findFeesByRemoveIsTrueAndDesignationIgnoreCaseContains(String tag, Pageable pageable);
-    /**
-     * Find all fees that are not removed by id class and id School Year and id Slice Fees
-     * @return List of fees
-     */
-    List<Fees> findByIdClassFessAndIdSchoolYearAndSliceFeesIdAndRemoveIsFalse(Long idClass, long idSchoolYear, long idSliceFees);
+
+
 }

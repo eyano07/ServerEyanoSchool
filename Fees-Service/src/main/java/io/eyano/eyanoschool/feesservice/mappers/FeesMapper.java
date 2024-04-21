@@ -25,7 +25,6 @@ import java.util.Map;
 @AllArgsConstructor
 public class FeesMapper implements Mapper<FeesDto, Fees> {
     ModelMapper modelMapper = new ModelMapper();
-    TypeFeesRepository typeFeesRepository;
     TypeFeesMapper typeFeesMapper;
 
 

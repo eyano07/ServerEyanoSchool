@@ -59,20 +59,11 @@ class FeesMapperTest {
                 .remove(false)
                 .build();
 
-        SliceFees sliceFees = SliceFees.builder()
-                .id(1L)
-                .remove(false)
-                .designation("1er Tranche")
-                .percentage(30)
-                .date(LocalDate.now())
-                .build();
-
         Fees fees = Fees.builder()
                 .id(1L)
                 .remove(false)
                 .amount(2000)
                 .idClassFess(1L)
-                .sliceFees(sliceFees)
                 .idSchoolYear(1L)
                 .typeFees(typeFees)
                 .build();
@@ -81,9 +72,11 @@ class FeesMapperTest {
 
         AssertionsForClassTypes.assertThat(fees).usingRecursiveComparison().ignoringFields("id","typeFees","sliceFees").isEqualTo(result);
         AssertionsForClassTypes.assertThat(fees.getTypeFees()).usingRecursiveComparison().ignoringFields("id").isEqualTo(result.getTypeFees());
-        AssertionsForClassTypes.assertThat(fees.getSliceFees()).usingRecursiveComparison().ignoringFields("id").isEqualTo(result.getSliceFees());
     }
 
+    /**
+     * Test of the dtoFromEntity method.
+     */
     @Test
     void shouldDtoFromEntityTest() {
         SliceFeesDto sliceFeesDto = new SliceFeesDto();
@@ -115,7 +108,6 @@ class FeesMapperTest {
                 .local("B2")
                 .ability(35)
                 .build());
-        feesDto.setSliceFees(sliceFeesDto);
         feesDto.setIdClassFess(1L);
         feesDto.setRemove(false);
 
@@ -123,9 +115,11 @@ class FeesMapperTest {
 
         AssertionsForClassTypes.assertThat(feesDto).usingRecursiveComparison().ignoringFields("id","typeFees","sliceFees").isEqualTo(result);
         AssertionsForClassTypes.assertThat(feesDto.getTypeFees()).usingRecursiveComparison().ignoringFields("id").isEqualTo(result.getTypeFees());
-        AssertionsForClassTypes.assertThat(feesDto.getSliceFees()).usingRecursiveComparison().ignoringFields("id").isEqualTo(result.getSliceFees());
     }
 
+    /**
+     * Test of the entitiesFromDTO method.
+     */
     @Test
     void shouldEntitiesFromDtoTest() {
         TypeFees typeFees = TypeFees.builder()
@@ -133,15 +127,6 @@ class FeesMapperTest {
                 .designation("Academic Fees")
                 .remove(false)
                 .build();
-
-        SliceFees sliceFees = SliceFees.builder()
-                .id(1L)
-                .remove(false)
-                .designation("1er Tranche")
-                .percentage(30)
-                .date(LocalDate.now())
-                .build();
-
 
         Fees fees = Fees.builder()
                 .id(1L)
@@ -159,7 +144,6 @@ class FeesMapperTest {
                                 .build()
                 )
                 .idClassFess(1L)
-                .sliceFees(sliceFees)
                 .schoolYear(
                         SchoolYear.builder()
                                 .id(1L)
@@ -189,7 +173,6 @@ class FeesMapperTest {
                                 .build()
                 )
                 .idClassFess(1L)
-                .sliceFees(sliceFees)
                 .schoolYear(
                         SchoolYear.builder()
                                 .id(1L)
@@ -219,7 +202,6 @@ class FeesMapperTest {
                                 .build()
                 )
                 .idClassFess(1L)
-                .sliceFees(sliceFees)
                 .schoolYear(
                         SchoolYear.builder()
                                 .id(1L)
@@ -242,7 +224,6 @@ class FeesMapperTest {
         for (int i = 0; i < expected.size(); i++) {
             AssertionsForClassTypes.assertThat(expected.get(i)).usingRecursiveComparison().ignoringFields("id","typeFees","sliceFees").isEqualTo(result.get(i));
             AssertionsForClassTypes.assertThat(expected.get(i).getTypeFees()).usingRecursiveComparison().ignoringFields("id").isEqualTo(result.get(i).getTypeFees());
-            AssertionsForClassTypes.assertThat(expected.get(i).getSliceFees()).usingRecursiveComparison().ignoringFields("id").isEqualTo(result.get(i).getSliceFees());
         }
     }
 
@@ -257,17 +238,6 @@ class FeesMapperTest {
                 .designation("Academic Fees")
                 .remove(false)
                 .build());
-
-
-        SliceFees sliceFees = sliceFeesRepository.save(SliceFees.builder()
-                .remove(false)
-                .designation("1er Tranche")
-                .percentage(30)
-                .date(LocalDate.now())
-                .datePayment(LocalDate.now())
-                .endDatePayment(LocalDate.now())
-                .build());
-
 
         Fees fees1 = Fees.builder()
                 .remove(false)
@@ -285,7 +255,6 @@ class FeesMapperTest {
                                 .build()
                 )
                 .idClassFess(1L)
-                .sliceFees(sliceFees)
                 .schoolYear(
                         SchoolYear.builder()
                                 .id(1L)
@@ -315,7 +284,6 @@ class FeesMapperTest {
                                 .build()
                 )
                 .idClassFess(1L)
-                .sliceFees(sliceFees)
                 .schoolYear(
                         SchoolYear.builder()
                                 .id(1L)
@@ -345,7 +313,6 @@ class FeesMapperTest {
                                 .build()
                 )
                 .idClassFess(1L)
-                .sliceFees(sliceFees)
                 .schoolYear(
                         SchoolYear.builder()
                                 .id(1L)

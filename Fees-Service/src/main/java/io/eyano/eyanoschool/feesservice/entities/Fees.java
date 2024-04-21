@@ -38,9 +38,6 @@ public class Fees {
     @ManyToOne
     private TypeFees typeFees;
 
-    @ManyToOne
-    private SliceFees sliceFees;
-
     //Attribute to allow removing an entity
     @Column(nullable = false)
     private boolean remove;

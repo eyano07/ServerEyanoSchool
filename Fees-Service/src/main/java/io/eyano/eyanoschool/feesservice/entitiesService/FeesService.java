@@ -51,14 +51,11 @@ public class FeesService implements CrudService<FeesDto, Long> {
         log.info("execution of the method:save(FeesDto entity) : {"+entity+"}");
         Fees fees = mapper.dtoFromEntity(entity);
 
-        // star check if the sliceFees and typeFees exist
-        if(entity.getSliceFees().getId() == null) throw new IdIsNullException("The id SliceFees is null");
-        sliceFeesRepository.findById(fees.getSliceFees().getId()).orElseThrow(
-                () -> new IdNotFoundException("SliceFees with id " + fees.getSliceFees().getId() + " not found"));
+        // star check if the typeFees exist
         if(entity.getTypeFees().getId()==null) throw new IdIsNullException("The id TypeFees is null");
         typeFeesRepository.findById(fees.getTypeFees().getId()).orElseThrow(
                 () -> new IdNotFoundException("TypeFees with id " + fees.getTypeFees().getId() + " not found"));
-        // end check if the sliceFees and typeFees exist
+        // end check if the typeFees exist
 
         FeesDto feesDto = mapper.entityFromDTO(feesRepository.save(fees));
         log.info("the creation of the entity : {"+ feesDto+"}");
@@ -307,36 +304,6 @@ public class FeesService implements CrudService<FeesDto, Long> {
 
         List<FeesDto> feesDtoList = mapper.entitiesFromDtos(feesList);
         log.info("end of method execution:findByIdClassFessAndIdSchoolYear() : "+feesDtoList) ;
-        return feesDtoList;
-    }
-   /**
-        * implementation of methode findByIdClassFessAndIdSchoolYearAndSliceFeesId for finding FeesDto entity by idClass, idSchoolYear and typeFeesId
-        * @param idClass : Long
-        * @param idSchoolYear : Long
-        * @param sliceFeesId : Long
-        * @throws IdIsNullException (if the entity idClass, idSchoolYear and sliceFeesId is null)
-        * @return : List<FeesDto>
-     */
-    public  List<FeesDto>  findByIdClassFessAndIdSchoolYearAndSliceFeesId(Long idClass, Long idSchoolYear,Long sliceFeesId) throws IdIsNullException {
-        log.info("execution of the method:findByIdClassFessAndIdSchoolYearAndSliceFeesId(Long, Long,Long)") ;
-
-        //Star of the verification of the id school year, idClass and sliceFeesId------------------------------------
-        if(idSchoolYear==null){
-            throw new IdIsNullException("The id school year is null");
-        }
-        if(idClass==null){
-            throw new IdIsNullException("The id class is null");
-        }
-        if(sliceFeesId==null){
-            throw new IdIsNullException("The id slice fees is null");
-        }
-        //todo: add test for school year id, class id and slice id is exist
-        //End of the verification of the id school year, idClass and sliceFeesId------------------------------------
-
-        List<Fees> feesList= feesRepository.findByIdClassFessAndIdSchoolYearAndSliceFeesIdAndRemoveIsFalse(idClass, idSchoolYear,sliceFeesId);
-
-        List<FeesDto> feesDtoList = mapper.entitiesFromDtos(feesList);
-        log.info("end of method execution:findByIdClassFessAndIdSchoolYearAndSliceFeesId() Entity : "+feesDtoList) ;
         return feesDtoList;
     }
 

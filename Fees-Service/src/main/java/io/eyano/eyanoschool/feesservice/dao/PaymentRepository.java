@@ -91,4 +91,8 @@ public interface PaymentRepository  extends JpaRepository<Payment, Long> {
      * @return List of Payment
      */
     List<Payment> findByIdUserAndDateAndRemoveIsFalse(Long idUser, LocalDate date);
+    /*
+        * This method is used to find all Payment by id User and date per page
+     */
+    List<Payment> findByFeesIdAndIdPupilAndSliceFeesId(Long idFees, Long idPupil, Long sliceId);
 }

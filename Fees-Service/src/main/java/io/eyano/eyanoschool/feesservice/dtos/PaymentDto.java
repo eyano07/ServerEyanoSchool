@@ -34,6 +34,9 @@ public class PaymentDto  {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Long idUser;
 
+    @NotNull (message = "The field is required")
+    private SliceFeesDto sliceFees;
+
     private PaymentSystem paymentSystem;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull (message = "The field is required")

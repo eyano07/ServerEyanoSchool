@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="07cc0daf-a328-472a-8e15-873c6df4382d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -51,13 +52,15 @@
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
     "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
     "jdk.selected.JAVA_MODULE": "22",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "spring.configuration.checksum": "7fbbcb90e60c5a235e172d61720f0cf2",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
+    "spring.configuration.checksum": "26b3928f3095b2b3c709d8f23f8d48db",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -80,8 +83,16 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.FeesMapperTest">
-    <configuration name="FeesMapperTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.All in Fees-Service">
+    <configuration name="All in Fees-Service" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Fees-Service" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TypeFeesMapperTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Fees-Service" />
       <extension name="coverage">
         <pattern>
@@ -90,13 +101,13 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="io.eyano.eyanoschool.feesservice.mappers" />
-      <option name="MAIN_CLASS_NAME" value="io.eyano.eyanoschool.feesservice.mappers.FeesMapperTest" />
+      <option name="MAIN_CLASS_NAME" value="io.eyano.eyanoschool.feesservice.mappers.TypeFeesMapperTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FeesMapperTest.shouldDtoFromEntityTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TypeFeesMapperTest.shouldDtoFromEntityTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Fees-Service" />
       <extension name="coverage">
         <pattern>
@@ -105,14 +116,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="io.eyano.eyanoschool.feesservice.mappers" />
-      <option name="MAIN_CLASS_NAME" value="io.eyano.eyanoschool.feesservice.mappers.FeesMapperTest" />
+      <option name="MAIN_CLASS_NAME" value="io.eyano.eyanoschool.feesservice.mappers.TypeFeesMapperTest" />
       <option name="METHOD_NAME" value="shouldDtoFromEntityTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FeesMapperTest.shouldEntitiesFromDtoPageTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TypeFeesMapperTest.shouldEntitiesFromDtoPageTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Fees-Service" />
       <extension name="coverage">
         <pattern>
@@ -121,14 +132,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="io.eyano.eyanoschool.feesservice.mappers" />
-      <option name="MAIN_CLASS_NAME" value="io.eyano.eyanoschool.feesservice.mappers.FeesMapperTest" />
+      <option name="MAIN_CLASS_NAME" value="io.eyano.eyanoschool.feesservice.mappers.TypeFeesMapperTest" />
       <option name="METHOD_NAME" value="shouldEntitiesFromDtoPageTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FeesMapperTest.shouldEntitiesFromDtoTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TypeFeesMapperTest.shouldEntitiesFromDtoTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Fees-Service" />
       <extension name="coverage">
         <pattern>
@@ -137,24 +148,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="io.eyano.eyanoschool.feesservice.mappers" />
-      <option name="MAIN_CLASS_NAME" value="io.eyano.eyanoschool.feesservice.mappers.FeesMapperTest" />
+      <option name="MAIN_CLASS_NAME" value="io.eyano.eyanoschool.feesservice.mappers.TypeFeesMapperTest" />
       <option name="METHOD_NAME" value="shouldEntitiesFromDtoTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="FeesMapperTest.shouldEntityFromDTOTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Fees-Service" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="io.eyano.eyanoschool.feesservice.mappers.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="io.eyano.eyanoschool.feesservice.mappers" />
-      <option name="MAIN_CLASS_NAME" value="io.eyano.eyanoschool.feesservice.mappers.FeesMapperTest" />
-      <option name="METHOD_NAME" value="shouldEntityFromDTOTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -203,11 +198,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.FeesMapperTest" />
-        <item itemvalue="JUnit.FeesMapperTest.shouldEntitiesFromDtoPageTest" />
-        <item itemvalue="JUnit.FeesMapperTest.shouldEntitiesFromDtoTest" />
-        <item itemvalue="JUnit.FeesMapperTest.shouldDtoFromEntityTest" />
-        <item itemvalue="JUnit.FeesMapperTest.shouldEntityFromDTOTest" />
+        <item itemvalue="JUnit.All in Fees-Service" />
+        <item itemvalue="JUnit.TypeFeesMapperTest" />
+        <item itemvalue="JUnit.TypeFeesMapperTest.shouldEntitiesFromDtoPageTest" />
+        <item itemvalue="JUnit.TypeFeesMapperTest.shouldEntitiesFromDtoTest" />
+        <item itemvalue="JUnit.TypeFeesMapperTest.shouldDtoFromEntityTest" />
       </list>
     </recent_temporary>
   </component>
@@ -220,7 +215,10 @@
       <option name="presentableId" value="Default" />
       <updated>1713513642227</updated>
       <workItem from="1713513644318" duration="1115000" />
-      <workItem from="1713684985048" duration="12722000" />
+      <workItem from="1713684985048" duration="14530000" />
+      <workItem from="1713699735618" duration="242000" />
+      <workItem from="1713700001740" duration="242000" />
+      <workItem from="1713700270579" duration="8530000" />
     </task>
     <servers />
   </component>
@@ -229,5 +227,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

@@ -32,10 +32,7 @@ public class PaymentMapper implements Mapper<PaymentDto, Payment> {
     //PaymentSystemRestClient paymentSystemRestClient;
     //CurrencyRestClient currencyRestClient;
     ModelMapper modelMapper = new ModelMapper();
-    SliceFeesRepository sliceFeesRepository;
-    FeesRepository feesRepository;
-    FeesMapper feesMapper;
-    SliceFeesMapper sliceFeesMapper;
+
 
     /**
      * Convert a Payment entity to a PaymentDto

@@ -39,8 +39,6 @@ public class FeesDto {
 
     @NotNull (message = "The field is required")
     private TypeFeesDto typeFees;
-    @NotNull (message = "The field is required")
-    private SliceFeesDto sliceFees;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean remove;

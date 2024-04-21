@@ -45,6 +45,9 @@ public class Payment {
     @Transient
     private PaymentSystem paymentSystem;
 
+    @ManyToOne
+    private SliceFees sliceFees;
+
     @Column(unique = true)
     private Long idPaymentSystem;
 
