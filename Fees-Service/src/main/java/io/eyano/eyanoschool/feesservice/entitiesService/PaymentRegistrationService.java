@@ -32,6 +32,8 @@ public class PaymentRegistrationService implements CrudService<PaymentRegistrati
     /**
         * implementation of methode save from CrudService interface for saving PaymentRegistrationDto entity
         * @param entity : PaymentRegistrationDto entity to save
+        * @throws IdIsNullException : if the id Fees, id currency, id candidate, id user and id payment system is null
+        * @throws IdNotFoundException : if the id Fees, id currency, id candidate, id user and id payment system is not found
         * @return the entity saved
      */
     @Override
@@ -39,11 +41,11 @@ public class PaymentRegistrationService implements CrudService<PaymentRegistrati
         log.info("execution of the method:save(PaymentRegistrationDto entity) : {"+ entity+"}");
         PaymentRegistration paymentRegistration = mapper.dtoFromEntity(entity);
 
-        //star check if id Payment system, id candidate, id fees, id user, id fees exist
+        //star check if id Payment system, id candidate, id fees, id user, id currency and id fees exist
         if(entity.getFees().getId() == null) throw new IdIsNullException("The id Fees is null");
         feesRepository.findByIdAndRemoveIsFalse(entity.getId()).orElseThrow(IdNotFoundException::new);
-        //todo : check if id candidate, id user and payment system exist
-        //end check if id Payment system, id candidate, id fees, id user, id fees exist
+        //todo : check if id candidate, id currency, id user and payment system exist
+        //end check if id Payment system, id candidate, id fees, id user, id currency and id fees exist
 
         PaymentRegistrationDto paymentRegistrationDto = mapper.entityFromDTO(
                 paymentRegistrationRepository.save(paymentRegistration)
@@ -57,6 +59,7 @@ public class PaymentRegistrationService implements CrudService<PaymentRegistrati
         * @param entity : the entity to update
         * @return the entity updated
         * @throws IdNotFoundException : if the entity is not found
+        * @throws IdIsNullException : if the id is null
      */
     @Override
     public PaymentRegistrationDto update(PaymentRegistrationDto entity) throws IdNotFoundException, IdIsNullException {
@@ -77,6 +80,7 @@ public class PaymentRegistrationService implements CrudService<PaymentRegistrati
         * @param entity : the entity to delete
         * @return boolean : the entity deleted
         * @throws IdNotFoundException : if the entity is not found
+        * @throws IdIsNullException : if the id is null
      */
     @Override
     public boolean remove(PaymentRegistrationDto entity) throws IdNotFoundException, IdIsNullException {
@@ -101,6 +105,7 @@ public class PaymentRegistrationService implements CrudService<PaymentRegistrati
         * @param id : the id of the entity to delete
         * @return boolean : the entity deleted
         * @throws IdNotFoundException : if the entity is not found
+        * @throws IdIsNullException : if the id is null
      */
     @Override
     public boolean removeById(Long id) throws IdNotFoundException, IdIsNullException {
@@ -125,6 +130,7 @@ public class PaymentRegistrationService implements CrudService<PaymentRegistrati
         * @param id : the id of the entity to restore
         * @return boolean : the entity restored
         * @throws IdNotFoundException : if the entity is not found
+        * @throws IdIsNullException : if the id is null
      */
     @Override
     public boolean restore(Long id) throws IdNotFoundException, IdIsNullException {
@@ -149,6 +155,7 @@ public class PaymentRegistrationService implements CrudService<PaymentRegistrati
         * @param id : the id of the entity to find
         * @return boolean : true if the entity exists
         * @throws IdNotFoundException : if the entity is not found
+        * @throws IdIsNullException : if the id is null
      */
     @Override
     public PaymentRegistrationDto isExist(Long id) throws IdNotFoundException, IdIsNullException {
@@ -171,6 +178,7 @@ public class PaymentRegistrationService implements CrudService<PaymentRegistrati
         * @param id : the id of the entity to find
         * @return boolean : true if the entity is deleted
         * @throws IdNotFoundException : if the entity is not found
+        * @throws IdIsNullException : if the id is null
      */
     @Override
     public boolean isRemove(Long id) throws IdNotFoundException, IdIsNullException {
@@ -190,6 +198,8 @@ public class PaymentRegistrationService implements CrudService<PaymentRegistrati
         * this method finds an entity in the database
         * @param id : the id of the entity to find
         * @return PaymentRegistrationDto : the entity found
+        * @throws IdIsNullException : if the id is null
+        * @throws IdNotFoundException : if the id is not found
      */
     @Override
     public PaymentRegistrationDto findById(Long id) throws IdIsNullException, IdNotFoundException {

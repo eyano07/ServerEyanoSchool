@@ -44,6 +44,7 @@ public class FeesService implements CrudService<FeesDto, Long> {
         * @param entity : FeesDto
         * @return : the FeesDto saved
         * @throws IdNotFoundException (if the entity Slice and TypeFees is not found)
+        * @throws IdIsNullException (if the entity Slice and TypeFees is null)
      */
     @Override
     public FeesDto save(FeesDto entity) throws IdNotFoundException, IdIsNullException {

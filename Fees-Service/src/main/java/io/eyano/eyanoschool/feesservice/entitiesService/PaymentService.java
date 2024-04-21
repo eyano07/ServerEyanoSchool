@@ -1,5 +1,6 @@
 package io.eyano.eyanoschool.feesservice.entitiesService;
 
+import io.eyano.eyanoschool.feesservice.dao.FeesRepository;
 import io.eyano.eyanoschool.feesservice.dao.PaymentRepository;
 import io.eyano.eyanoschool.feesservice.dtos.PaymentDto;
 import io.eyano.eyanoschool.feesservice.entities.Payment;
@@ -27,18 +28,27 @@ import java.util.Map;
 @AllArgsConstructor @Slf4j
 public class PaymentService implements CrudService<PaymentDto,Long> {
     PaymentRepository paymentRepository;
+    FeesRepository feesRepository;
     PaymentMapper mapper;
 
     /**
      * implementation of the methode save from the CrudService interface for saving a paymentDto
      * @param entity : the paymentDto to save
      * @return PaymentDto : the paymentDto saved
+     * @throws IdIsNullException : if the id Fees, id currency, id pupil, id user and id payment system is null
+     * @throws IdNotFoundException : if the id Fees, id currency, id pupil, id user and id payment system is not found
      */
     @Override
-    public PaymentDto save(PaymentDto entity) {
+    public PaymentDto save(PaymentDto entity) throws IdIsNullException, IdNotFoundException {
         log.info("execution of the method:save(PaymentDto entity) : {" + entity + "}");
-
         Payment payment = mapper.dtoFromEntity(entity);
+
+        //star check if id Payment system, id currency,id currency id pupil, id fees, id user, id currency and id fees exist
+        if(entity.getFees().getId() == null) throw new IdIsNullException("The id Fees is null");
+        feesRepository.findByIdAndRemoveIsFalse(entity.getId()).orElseThrow(IdNotFoundException::new);
+        //todo : check if id candidate, id currency, id user and payment system exist
+        //end check if id Payment system, id currency,id currency, id pupil, id fees, id user, id currency and id fees exist
+
         PaymentDto paymentDto = mapper.entityFromDTO(
                 paymentRepository.save(payment)
         );
@@ -51,6 +61,7 @@ public class PaymentService implements CrudService<PaymentDto,Long> {
      * @param entity : the paymentDto to update
      * @return PaymentDto : the paymentDto updated
      * @throws IdNotFoundException : if the paymentDto is not found
+     * @throws IdIsNullException : if the id of the paymentDto is null
      */
     @Override
     public PaymentDto update(PaymentDto entity) throws IdNotFoundException, IdIsNullException {
@@ -73,6 +84,7 @@ public class PaymentService implements CrudService<PaymentDto,Long> {
      * @param entity : the paymentDto to delete
      * @return boolean : true if the paymentDto is deleted
      * @throws IdNotFoundException : if the paymentDto is not found
+     * @throws IdIsNullException : if the id of the paymentDto is null
      */
     @Override
     public boolean remove(PaymentDto entity) throws IdNotFoundException, IdIsNullException {
@@ -98,6 +110,7 @@ public class PaymentService implements CrudService<PaymentDto,Long> {
      * @param id : the id of the paymentDto to delete
      * @return boolean : true if the paymentDto is deleted
      * @throws IdNotFoundException : if the paymentDto is not found
+     * @throws IdIsNullException : if the id of the paymentDto is null
      */
 
     public boolean removeById(Long id) throws IdNotFoundException, IdIsNullException {
@@ -122,6 +135,7 @@ public class PaymentService implements CrudService<PaymentDto,Long> {
      * @param id : the id of the paymentDto to restore
      * @return boolean : true if the paymentDto is restored
      * @throws IdNotFoundException : if the paymentDto is not found
+     * @throws IdIsNullException : if the id of the paymentDto is null
      */
     @Override
     public boolean restore(Long id) throws IdNotFoundException, IdIsNullException {
@@ -147,6 +161,7 @@ public class PaymentService implements CrudService<PaymentDto,Long> {
      * @param id : the id of the paymentDto to check
      * @return boolean : true if the paymentDto exists
      * @throws IdNotFoundException : if the paymentDto is not found
+     * @throws IdIsNullException : if the id of the paymentDto is null
      */
     @Override
     public PaymentDto isExist(Long id) throws IdNotFoundException, IdIsNullException {
@@ -168,6 +183,7 @@ public class PaymentService implements CrudService<PaymentDto,Long> {
      * @param id : the id of the paymentDto to check
      * @return boolean : true if the paymentDto is deleted
      * @throws IdNotFoundException : if the paymentDto is not found
+     * @throws IdIsNullException : if the id of the paymentDto is null
      */
     @Override
     public boolean isRemove(Long id) throws IdNotFoundException, IdIsNullException {
@@ -189,6 +205,7 @@ public class PaymentService implements CrudService<PaymentDto,Long> {
      * @param id : the id of the paymentDto
      * @return PaymentDto : the paymentDto found
      * @throws IdNotFoundException : if the paymentDto is not found
+     * @throws IdIsNullException : if the id of the paymentDto is null
      */
     public PaymentDto findById(Long id) throws IdNotFoundException, IdIsNullException {
         log.info("execution of the method:findById(Long id) : {" + id + "}");
@@ -209,6 +226,7 @@ public class PaymentService implements CrudService<PaymentDto,Long> {
      * @param id : the id of the paymentDto
      * @return PaymentDto : the paymentDto found
      * @throws IdNotFoundException : if the paymentDto is not found
+     * @throws IdIsNullException : if the id of the paymentDto is null
      */
     @Override
     public PaymentDto findRemoveById(Long id) throws IdNotFoundException, IdIsNullException {

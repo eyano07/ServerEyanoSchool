@@ -1,5 +1,6 @@
 package io.eyano.eyanoschool.feesservice.entities;
 
+import io.eyano.eyanoschool.feesservice.entitiesExt.Currency;
 import io.eyano.eyanoschool.feesservice.entitiesExt.PaymentSystem;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,6 +30,11 @@ public class PaymentRegistration {
     private PaymentSystem paymentSystem;
     @Column(unique = true)
     private Long idPaymentSystem;
+
+    //From the Finance module
+    @Transient
+    private Currency currency;
+    private Long idCurrency;
 
     //From the User module
     @Transient
